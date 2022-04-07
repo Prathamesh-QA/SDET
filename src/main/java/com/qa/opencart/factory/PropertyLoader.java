@@ -23,7 +23,6 @@ public class PropertyLoader {
 	
 	WebDriver driver;
 	
-	
 	/**
 	 * This method is used to load/initialize the properties 
 	 * @return Properties object loaded with environment config file
