@@ -7,11 +7,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.qa.opencart.utils.Constants;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -20,29 +21,29 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  *
  */
 public class DriverFactory {
-	
 	WebDriver driver;
+	Properties prop;
 	
 	/**
-	 * This method is used to initialize the web-driver on the basis of the browser selected
+	 * This method is used to initialize the webdriver on the basis of given browser name
 	 * @param browserName
+	 * @return
 	 */
-	public WebDriver initDriver(String browserName) {
-		System.out.println("Browser name is: " + browserName);
+	public WebDriver initializeDriver(String browserName) {
 		
-		if(browserName.equalsIgnoreCase("chrome")) {
+		System.out.println("Browser name is " + browserName);
+		if(browserName.equalsIgnoreCase(Constants.CHROME_BROWSER)) {
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
-		}else if(browserName.equalsIgnoreCase("firefox")) {
+		}else if(browserName.equalsIgnoreCase(Constants.FIREFOX_BROWSER)) {
 			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
-		}else if(browserName.equalsIgnoreCase("edge")) {
+		}else if(browserName.equalsIgnoreCase(Constants.EDGE_BROWSER)) {
 			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
 		}else {
-			new RuntimeException("Incorrect browser selected");
+			throw new RuntimeException("Selected browser " + browserName + " is not valid");
 		}
-		
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		
@@ -50,55 +51,24 @@ public class DriverFactory {
 	}
 	
 	/**
-	 * This method is used to load/initialize the environment properties 
-	 * @return Properties object loaded with environment config file
+	 * This method is used to initialize the properties on the basis of given properties file location
+	 * @param relativeFileLocation
+	 * @return
 	 */
-	public Properties initEnvironmentProperties() {
+	public Properties initializeProperties(String relativeFileLocation) {
 		
-		Properties environmentProperties = new Properties();
+		prop = new Properties();
 		try {
-			FileInputStream fs = new FileInputStream(System.getProperty("user.dir")+"\\src\\test\\resources\\configuration\\config.properties");
-			environmentProperties.load(fs);
+			FileInputStream file = new FileInputStream(System.getProperty("user.dir") + relativeFileLocation);
+			prop.load(file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return environmentProperties;
+		return prop;
 	}
-	/**
-	 * This method is used to load/initialize the error message properties 
-	 * @return Properties object loaded with message file
-	 */
-	public Properties initErrorMessageProperties() {
-		
-		Properties messageProperties = new Properties();
-		try {
-			FileInputStream fs = new FileInputStream(System.getProperty("user.dir")+"\\src\\test\\resources\\configuration\\message-en.properties");
-			messageProperties.load(fs);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return messageProperties;
-	}
-	/**
-	 * This method is used to load/initialize the xpath properties 
-	 * @return Properties object loaded with xpath Property file
-	 */
-	public Properties initXpathProperties() {
-		
-		Properties xpathProp = new Properties();
-		try {
-			FileInputStream fs = new FileInputStream(System.getProperty("user.dir")+"\\src\\test\\resources\\configuration\\xpathprop.properties");
-			xpathProp.load(fs);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return xpathProp;
-	}
+	
+	
 
 }
