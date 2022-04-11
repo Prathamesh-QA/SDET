@@ -34,7 +34,7 @@ public class BaseTest {
 		environmentProp = factory.initializeProperties(Constants.ENVIRONMENT_PROPERTIES);
 		messageProp = factory.initializeProperties(Constants.MESSAGE_PROPERTIES);
 		xpathProp = factory.initializeProperties(Constants.XPATH_PROPERTIES);
-		driver = factory.initializeDriver(environmentProp.getProperty("test.browser"));
+		driver = factory.initializeDriver(environmentProp);
 		driver.get(environmentProp.getProperty("test.url"));
 		loginPage = new LoginPage(driver);
 	}

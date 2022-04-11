@@ -23,15 +23,19 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class DriverFactory {
 	WebDriver driver;
 	Properties prop;
+	public static String highlight;
 	
 	/**
 	 * This method is used to initialize the webdriver on the basis of given browser name
 	 * @param browserName
 	 * @return
 	 */
-	public WebDriver initializeDriver(String browserName) {
+	public WebDriver initializeDriver(Properties browserProperties) {
 		
+		String browserName = browserProperties.getProperty("test.browser");
+		highlight = browserProperties.getProperty("highlight").trim();
 		System.out.println("Browser name is " + browserName);
+		
 		if(browserName.equalsIgnoreCase(Constants.CHROME_BROWSER)) {
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();

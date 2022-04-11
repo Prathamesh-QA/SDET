@@ -20,13 +20,21 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.qa.opencart.factory.DriverFactory;
+
 /**
  * @author P.Dhamanaskar
  *
  */
 public class ElementUtils {
 	
-	WebDriver driver;
+	private WebDriver driver;
+	private JavascriptUtil jsUtil;
+	
+	public ElementUtils(WebDriver driver) {
+		this.driver = driver;
+		jsUtil = new JavascriptUtil(this.driver);
+	}
 	
 	/**
 	 * 
@@ -34,7 +42,11 @@ public class ElementUtils {
 	 * @return
 	 */
 	public WebElement getElement(By locator) {
-		return driver.findElement(locator);
+		WebElement element =  driver.findElement(locator);
+		if(DriverFactory.highlight.equalsIgnoreCase("true")){
+			jsUtil.flash(element);
+		}
+		return element;
 	}
 
 	public List<WebElement> getElements(By locator) {
@@ -47,6 +59,14 @@ public class ElementUtils {
 
 	public void doSendKeys(By locator, String value) {
 		getElement(locator).sendKeys(value);
+	}
+	
+	public boolean doIsDisplayed(By locator) {
+		return getElement(locator).isDisplayed();
+	}
+	
+	public String doGetText(By locator) {
+		return getElement(locator).getText();
 	}
 
 	/************************ Dropdown Utils *********************************/

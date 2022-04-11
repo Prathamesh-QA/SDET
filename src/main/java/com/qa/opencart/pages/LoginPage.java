@@ -5,8 +5,9 @@ package com.qa.opencart.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import com.qa.opencart.utils.Base;
+import com.qa.opencart.utils.Constants;
+import com.qa.opencart.utils.ElementUtils;
 
 /**
  * @author P.Dhamanaskar
@@ -15,9 +16,11 @@ import com.qa.opencart.utils.Base;
 public class LoginPage extends Base{
 	
 	private WebDriver driver;
+	private ElementUtils elementUtils;
 	
 	public LoginPage(WebDriver driver) {
 		this.driver = driver;
+		elementUtils = new ElementUtils(this.driver);
 	}
 	
 	//Locators
@@ -26,35 +29,20 @@ public class LoginPage extends Base{
 	private final By login = By.xpath("//input[@value='Login']");
 	private final By forgotPasswordLink = By.cssSelector("div.form-group a");
 	
-	
-	public WebElement getForgotPasswordLink() {
-		return driver.findElement(forgotPasswordLink);
-	}
-	public WebElement getUsername() {
-		return driver.findElement(username);
-	}
-	public WebElement getPassword() {
-		return driver.findElement(password);
-	}
-	public WebElement getLogin() {
-		return driver.findElement(login);
-	}
-	
 	//Page Actions
-	
 	public String getPageTitle() {
-		return driver.getTitle();
+		return elementUtils.waitForPageTitleToBe(Constants.LOGIN_PAGE_TITLE, Constants.PAGE_TITLE_TIMEOUT);
 	}
 	
 	public boolean checkForgotLinkAvailability() {
-		return getForgotPasswordLink().isEnabled();
+		return elementUtils.doIsDisplayed(forgotPasswordLink);
 	}
 	
 	public HomePage doLogin(String userName,String passWord) {
 		System.out.println("User logged in with: " + userName + ":" + passWord);
-		getUsername().sendKeys(userName);
-		getPassword().sendKeys(passWord);
-		getLogin().click();
+		elementUtils.doSendKeys(username, userName);
+		elementUtils.doSendKeys(password, passWord);
+		elementUtils.doClick(login);
 		return new HomePage(driver);
 	}
 
