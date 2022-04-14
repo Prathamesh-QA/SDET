@@ -11,9 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
 import com.qa.opencart.utils.Constants;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 /**
@@ -24,34 +22,47 @@ public class DriverFactory {
 	WebDriver driver;
 	Properties prop;
 	public static String highlight;
+	OptionsManager optionsManager;
+	public static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
 	
 	/**
 	 * This method is used to initialize the webdriver on the basis of given browser name
 	 * @param browserName
 	 * @return
 	 */
-	public WebDriver initializeDriver(Properties browserProperties) {
+	public WebDriver initializeDriver(Properties environmentProperties) {
 		
-		String browserName = browserProperties.getProperty("test.browser");
-		highlight = browserProperties.getProperty("highlight").trim();
+		String browserName = environmentProperties.getProperty("test.browser");
 		System.out.println("Browser name is " + browserName);
-		
+		highlight = environmentProperties.getProperty("highlight").trim();
+		optionsManager = new OptionsManager(environmentProperties);
 		if(browserName.equalsIgnoreCase(Constants.CHROME_BROWSER)) {
 			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
+//			driver = new ChromeDriver(optionsManager.getCromeOptions());
+			threadDriver.set(new ChromeDriver(optionsManager.getCromeOptions()));
 		}else if(browserName.equalsIgnoreCase(Constants.FIREFOX_BROWSER)) {
 			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
+//			driver = new FirefoxDriver(optionsManager.getFirefoxOptions());
+			threadDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
 		}else if(browserName.equalsIgnoreCase(Constants.EDGE_BROWSER)) {
 			WebDriverManager.edgedriver().setup();
-			driver = new EdgeDriver();
+//			driver = new EdgeDriver(optionsManager.getEdgeOptions());
+			threadDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
 		}else {
 			throw new RuntimeException("Selected browser " + browserName + " is not valid");
 		}
-		driver.manage().window().maximize();
-		driver.manage().deleteAllCookies();
+		getDriver().manage().window().maximize();
+		getDriver().manage().deleteAllCookies();
 		
-		return driver;
+		return getDriver();
+	}
+	
+	/**
+	 * Return one copy of thread Selenium Webdriver 
+	 * @return
+	 */
+	public static synchronized WebDriver getDriver() {
+		return threadDriver.get();
 	}
 	
 	/**

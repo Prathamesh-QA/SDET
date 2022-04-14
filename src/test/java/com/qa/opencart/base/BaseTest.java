@@ -23,7 +23,6 @@ public class BaseTest {
 	DriverFactory factory;
 	public Properties environmentProp;
 	public Properties messageProp;
-	Properties xpathProp;
 	WebDriver driver;
 	public LoginPage loginPage;
 	public HomePage homePage;
@@ -33,7 +32,6 @@ public class BaseTest {
 		factory = new DriverFactory();
 		environmentProp = factory.initializeProperties(Constants.ENVIRONMENT_PROPERTIES);
 		messageProp = factory.initializeProperties(Constants.MESSAGE_PROPERTIES);
-		xpathProp = factory.initializeProperties(Constants.XPATH_PROPERTIES);
 		driver = factory.initializeDriver(environmentProp);
 		driver.get(environmentProp.getProperty("test.url"));
 		loginPage = new LoginPage(driver);

@@ -30,6 +30,9 @@ public class HomePage extends Base{
 	
 	private final By header = By.xpath("//div[@id='logo']//a");
 	private final By sectionHeaders = By.cssSelector("div#content h2");
+	private final By searchBox = By.xpath("//div[@id='search']/input[@name='search']");
+	private final By searchButton = By.xpath("//div[@id='search']//button[@type='button']");
+	
 	
 	//page actions
 	public String getHomePageTitle() {
