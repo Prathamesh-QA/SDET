@@ -57,7 +57,8 @@ public class ElementUtils {
 		getElement(locator).click();
 	}
 
-	public void doSendKeys(By locator, String value) {
+	public void doSendKeys(By locator, String value) { 
+		getElement(locator).clear();
 		getElement(locator).sendKeys(value);
 	}
 	

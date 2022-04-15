@@ -5,12 +5,9 @@ package com.qa.opencart.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import com.qa.opencart.utils.Base;
 import com.qa.opencart.utils.Constants;
 import com.qa.opencart.utils.ElementUtils;
 
@@ -18,7 +15,7 @@ import com.qa.opencart.utils.ElementUtils;
  * @author P.Dhamanaskar
  *
  */
-public class HomePage extends Base{
+public class HomePage {
 	
 	private WebDriver driver;
 	private ElementUtils elementUtils;
@@ -32,6 +29,8 @@ public class HomePage extends Base{
 	private final By sectionHeaders = By.cssSelector("div#content h2");
 	private final By searchBox = By.xpath("//div[@id='search']/input[@name='search']");
 	private final By searchButton = By.xpath("//div[@id='search']//button[@type='button']");
+	private final By searchItemResults = By.cssSelector("div.product-layout div.product-thumb");
+	private final By resultItemsLink = By.cssSelector("div.product-layout h4 a");
 	
 	
 	//page actions
@@ -58,6 +57,20 @@ public class HomePage extends Base{
 			sectionList.add(element.getText());
 		}
 		return sectionList;
+	}
+	
+	public boolean doSearch(String productName) {
+		elementUtils.doSendKeys(searchBox, productName);
+		elementUtils.doClick(searchButton);
+		return (elementUtils.getElements(searchItemResults).size() > 0);
+	}
+	
+	public void selectSearchedProduct(String productName) {
+		List<WebElement> resultItemsList = elementUtils.getElements(resultItemsLink);
+		System.out.println("Total Number of Items displayed " + resultItemsList.size());
+		resultItemsList.stream()
+			.filter(results -> results.getText().equals(productName))
+			.forEach(result -> result.click());
 	}
 	
 
