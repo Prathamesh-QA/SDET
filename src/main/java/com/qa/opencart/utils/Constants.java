@@ -22,10 +22,20 @@ public class Constants {
 	
 	//Timeouts
 	public static int PAGE_TITLE_TIMEOUT = 5;
+	public static int EXPLICIT_WAIT_TIMEOUT = 10;
+	public static int EXPLICIT_WAIT_POLLING_TIME = 2;
 	
 	//TITLE
-	public static String LOGIN_PAGE_TITLE = "Account Login";
-	public static String HOME_PAGE_TITLE = "My Account";
+	public static String LOGIN_PAGE_TITLE = "Login - My Store";
+	public static String HOME_PAGE_TITLE = "My Store";
+	public static String PRODUCT_PAGE_BLOUSE_TITLE = "Blouse - My Store";
+	public static String PRODUCT_PAGE_FADDEDSHORTSLEEVE_TITLE = "Faded Short Sleeve T-shirts - My Store";
+	
+	//ASSERTION
+	public static String PRODUCT_BLOUSE_CONDITION = "New";
+	public static String PRODUCT_BLOUSE_DESCRIPTION = "Short sleeved blouse with feminine draped sleeve detail.";
+	public static String PRODUCT_BLOUSE_PRICE = "$27.00";
+	
 	
 	
 

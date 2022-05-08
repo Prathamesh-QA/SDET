@@ -40,8 +40,8 @@ public class OptionsManager {
 	
 	public EdgeOptions getEdgeOptions() {
 		edge = new EdgeOptions();
-		if(Boolean.parseBoolean(prop.getProperty("headless").trim())) firefox.addArguments("--headless");
-		if(Boolean.parseBoolean(prop.getProperty("incognito").trim())) firefox.addArguments("--incognito");
+//		if(Boolean.parseBoolean(prop.getProperty("headless").trim())) firefox.addArguments("--headless");
+//		if(Boolean.parseBoolean(prop.getProperty("incognito").trim())) firefox.addArguments("--incognito");
 		return edge;
 	}
 

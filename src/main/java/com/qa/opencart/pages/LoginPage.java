@@ -23,10 +23,11 @@ public class LoginPage{
 	}
 	
 	//Locators
-	private final By username = By.xpath("//input[@id='input-email']");
-	private final By password = By.xpath("//input[@id='input-password']");
-	private final By login = By.xpath("//input[@value='Login']");
-	private final By forgotPasswordLink = By.cssSelector("div.form-group a");
+	private final By username = By.xpath("//input[@id='email']");
+	private final By password = By.xpath("//input[@id='passwd']");
+	private final By login = By.xpath("//button[@id='SubmitLogin']");
+	private final By homePageLink = By.xpath("//a[@title='Home']");
+	private final By forgotPasswordLink = By.cssSelector("p.lost_password a");
 	
 	//Page Actions
 	public String getPageTitle() {
@@ -42,6 +43,7 @@ public class LoginPage{
 		elementUtils.doSendKeys(username, userName);
 		elementUtils.doSendKeys(password, passWord);
 		elementUtils.doClick(login);
+		elementUtils.doClick(homePageLink);
 		return new HomePage(driver);
 	}
 

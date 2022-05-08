@@ -25,12 +25,12 @@ public class HomePage {
 		elementUtils = new ElementUtils(this.driver);
 	}
 	
-	private final By header = By.xpath("//div[@id='logo']//a");
-	private final By sectionHeaders = By.cssSelector("div#content h2");
-	private final By searchBox = By.xpath("//div[@id='search']/input[@name='search']");
-	private final By searchButton = By.xpath("//div[@id='search']//button[@type='button']");
-	private final By searchItemResults = By.cssSelector("div.product-layout div.product-thumb");
-	private final By resultItemsLink = By.cssSelector("div.product-layout h4 a");
+	private final By logo = By.cssSelector("div#header_logo a");
+	private final By sectionHeaders = By.xpath("//ul[contains(@class,'sf-menu')]/li/a");
+	private final By searchBox = By.cssSelector("input#search_query_top");
+	private final By searchButton = By.xpath("//form[@id='searchbox']/button[@name='submit_search']");
+	private final By searchItemResults = By.xpath("//ul[contains(@class,'product_list')]/li");
+	private final By resultItemsLink = By.xpath("//div[@class='product-container']//a[@class='product-name']");
 	
 	
 	//page actions
@@ -38,11 +38,8 @@ public class HomePage {
 		return elementUtils.waitForPageTitleToBe(Constants.HOME_PAGE_TITLE, Constants.PAGE_TITLE_TIMEOUT);
 	}
 	
-	public String getHeaderValue() {
-		if(elementUtils.doIsDisplayed(header)) {
-			return elementUtils.doGetText(header);
-		}
-		return null;
+	public boolean isHomePageLogoIsPresent() {
+		return elementUtils.doIsDisplayed(logo);
 	}
 	
 	public Integer getHomePageSectionsCount() {
@@ -53,7 +50,6 @@ public class HomePage {
 		List<String> sectionList = new ArrayList<String>();
 		List<WebElement> homeSectionList = elementUtils.getElements(sectionHeaders);
 		for(WebElement element : homeSectionList) {
-			System.out.println(element.getText());
 			sectionList.add(element.getText());
 		}
 		return sectionList;
@@ -65,12 +61,13 @@ public class HomePage {
 		return (elementUtils.getElements(searchItemResults).size() > 0);
 	}
 	
-	public void selectSearchedProduct(String productName) {
+	public ProductInfoPage selectSearchedProduct(String productName) {
 		List<WebElement> resultItemsList = elementUtils.getElements(resultItemsLink);
 		System.out.println("Total Number of Items displayed " + resultItemsList.size());
 		resultItemsList.stream()
 			.filter(results -> results.getText().equals(productName))
 			.forEach(result -> result.click());
+		return new ProductInfoPage(driver);
 	}
 	
 

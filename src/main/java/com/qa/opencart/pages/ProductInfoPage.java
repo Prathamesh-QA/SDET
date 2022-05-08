@@ -4,13 +4,10 @@
 package com.qa.opencart.pages;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
+import com.qa.opencart.utils.Constants;
 import com.qa.opencart.utils.ElementUtils;
 
 /**
@@ -27,22 +24,27 @@ public class ProductInfoPage {
 		elementUtils = new ElementUtils(this.driver);
 	}
 	
-	private By productNameHeader = By.cssSelector("div#product-product h1");
-	private By productMetaData = By.cssSelector("#content .list-unstyled:nth-of-type(1) li");
-	private By productPrice = By.cssSelector("#content .list-unstyled:nth-of-type(2) li");
+	private By productNameHeader = By.cssSelector("div.pb-center-column h1");
+	private By productCondition = By.cssSelector("p#product_condition span");
+	private By productDescription = By.cssSelector("div#short_description_content p");
+	private By productPrice = By.cssSelector("span#our_price_display");
 	private By productQuantity = By.cssSelector("input#input-quantity");
 	private By addToCart = By.cssSelector("button#button-cart");
-	private By productImages = By.xpath("//a[@class='thumbnail']/img");
+	private By productImages = By.xpath("//ul[@id='thumbs_list_frame']/li//img");
+	
+	//------------------------- Page Actions --------------------//
+	
+	public String getProductInfoPageTitle(String productName) {
+		return elementUtils.waitForPageTitleContains(productName, Constants.PAGE_TITLE_TIMEOUT);
+	}
+	
 	
 	public Map<String,String> productInformation() {
 		Map<String,String> productInfo = new HashMap<String,String>();
 		productInfo.put("name", elementUtils.doGetText(productNameHeader));
-		List<WebElement> productMetadataList = elementUtils.getElements(productMetaData);
-		productMetadataList.stream()
-			.forEach(e -> productInfo.put(e.getText().split(":")[0].trim(), e.getText().split(":")[1].trim()));
-		List<WebElement> productPriceList = elementUtils.getElements(productPrice);
-		productInfo.put("price", productPriceList.get(0).getText().trim());
-		productInfo.put(productPriceList.get(1).getText().split(":")[0].trim(), productPriceList.get(1).getText().split(":")[1].trim());
+		productInfo.put("condition", elementUtils.doGetText(productCondition));
+		productInfo.put("description", elementUtils.doGetText(productDescription));
+		productInfo.put("price", elementUtils.doGetText(productPrice));
 		return productInfo;
 	}
 	
@@ -58,8 +60,4 @@ public class ProductInfoPage {
 		return elementUtils.getElements(productImages).size();
 	}
 	
-	public void getProductInfoPageTitle(String productName) {
-		elementUtils.waitForPageTitleToBe(productName, 5);
-	}
-
 }

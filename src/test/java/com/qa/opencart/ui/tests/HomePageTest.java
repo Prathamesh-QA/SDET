@@ -30,7 +30,7 @@ public class HomePageTest extends BaseTest{
 	
 	@Test(priority=2)
 	public void verifyHomePageLogoTest() {
-		Assert.assertEquals(homePage.getHeaderValue(), messageProp.getProperty("home.header"));
+		Assert.assertTrue(homePage.isHomePageLogoIsPresent());
 	}
 	
 	@Test(priority=3)
@@ -45,19 +45,19 @@ public class HomePageTest extends BaseTest{
 	}
 	
 	@Test(priority=5)
-	public void searchIMacTest() {
-		Assert.assertTrue(homePage.doSearch("iMac"));
-	}
-	
-	@Test(priority=5)
-	public void searchMacbookTest() {
-		Assert.assertTrue(homePage.doSearch("MacBook Air"));
+	public void searchBlouseTest() {
+		Assert.assertTrue(homePage.doSearch("Blouse"));
 	}
 	
 	@Test(priority=6)
+	public void searchSummerDressTest() {
+		Assert.assertTrue(homePage.doSearch("Faded Short Sleeve"));
+	}
+	
+	@Test(priority=7)
 	public void verifyProductResultsTest() {
-		homePage.doSearch("iMac");
-		homePage.selectSearchedProduct("iMac");
+		homePage.doSearch("Blouse");
+		homePage.selectSearchedProduct("Blouse");
 	}
 
 }

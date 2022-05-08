@@ -38,15 +38,12 @@ public class DriverFactory {
 		optionsManager = new OptionsManager(environmentProperties);
 		if(browserName.equalsIgnoreCase(Constants.CHROME_BROWSER)) {
 			WebDriverManager.chromedriver().setup();
-//			driver = new ChromeDriver(optionsManager.getCromeOptions());
 			threadDriver.set(new ChromeDriver(optionsManager.getCromeOptions()));
 		}else if(browserName.equalsIgnoreCase(Constants.FIREFOX_BROWSER)) {
 			WebDriverManager.firefoxdriver().setup();
-//			driver = new FirefoxDriver(optionsManager.getFirefoxOptions());
 			threadDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
 		}else if(browserName.equalsIgnoreCase(Constants.EDGE_BROWSER)) {
 			WebDriverManager.edgedriver().setup();
-//			driver = new EdgeDriver(optionsManager.getEdgeOptions());
 			threadDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
 		}else {
 			throw new RuntimeException("Selected browser " + browserName + " is not valid");

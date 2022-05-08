@@ -99,7 +99,7 @@ public class ElementUtils {
 
 	/************************** WebDriver Wait *******************************/
 
-	public String waitForPageTitle(String title, int timeOut) {
+	public String waitForPageTitleContains(String title, int timeOut) {
 		WebDriverWait wait = new WebDriverWait(driver, timeOut);
 		wait.until(ExpectedConditions.titleContains(title));
 		return driver.getTitle();
